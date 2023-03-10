@@ -13,21 +13,24 @@
 
 0       resume
 
--- function fn ---
 ;; initialize function
+2       maken @@ (fn)
 5       loadn @a (fn) ;; load the function name
-10      makef #0 () ;; make the function
+10      makef #5 () ;; make the function
 15      loadc @b (l) ;; load the parameter
 
 ;; function body
-20      loadv @c (mylist) ;; load the list into c
+17      bldls @d () ;; build a list
+18      maken @@ (mylist) ;; make a name
+20      storv @c (mylist @d) ;; load the list into c
 25      liter @c (@c) ;; load the value as an iterator (back into c)
 30      biter @@ (@c) ;; begin iteration
 
 35      storv @@ (#30) ;; store the "item" value on the line
-40      loadm @f (append on:#20) ;; load method append on line 20
+40      loadm @f (append #20) ;; load method append on line 20
 45      loadc @@ (2) ;; load the number "2"
-50      binop #35#45 (*) ;; multiply the value on line 35 "item" by the item on line 45 "2"
+50      binop @@ (#35#45 *) ;; multiply the value on line 35 "item" by the item on line 45 "2"
+52      callf @@ (#40) (@a) ;; call function loaded on line 40 with @a as the argument
 55      jmpto @@ (#30) ;; jump to beginning of loop
 
 60      retvl @c () ;; return the list at c
@@ -37,11 +40,11 @@
 
 0       resume
 5       bldls @a
-10      loadc @@ ((1, 2, 3, 4))
-15      extls @a #10 
-20      storn @@ (x from:@a)
+10      loadc @@ ((1 2 3 4))
+15      fills @a #10 
+20      storv @@ (x @a)
 25      loadn @a (fn)
-30      callf @@ (#25)
+30      callf @@ (#25) (@a)
 35      storv #35 (x)
 
 ---
